@@ -119,6 +119,8 @@ void * thread_1 (void *arg)
   // ( that the way how c pass arguments between threads. )
   Data_thread* access_th1 = (Data_thread *) arg;
   
+  // the folowing memory pointer point on 50 bytes non initialized 
+  // so to avoid random flotting memory state the whole 50 bytes are initialized to zero.
   for(size_t i =0;i<50;i++){
    *(access_th1->bytes_stream+i) = '\0';
   }
