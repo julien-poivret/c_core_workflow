@@ -105,7 +105,7 @@ void * thread_1 (void *arg)
   access_th1->timer1->tv_nsec = 200000000;
   access_th1->timer1->tv_sec = 0;
 
-  printf ("\x1b[1;1H\33[2JCompute name...\n");
+  printf ("\x1b[4;1H\33[2JCompute name...\n");
   for (size_t i = 0; i < 6; i++)
     {
       pthread_mutex_lock (&access_th1->mut);
@@ -143,7 +143,8 @@ int main (int argc, char *argv[])
 
   char help[64] =
     "Basic Documentation.\n"
-    "        Test        \n" "     19-Nov-21      \n";
+    "        Test        \n" 
+    "     19-Nov-21      \n";
 
   // Basic Error Handling.
   if (!((size_t) write (1, (char *) help, 64)))
