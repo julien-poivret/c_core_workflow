@@ -1,9 +1,9 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<stdint.h>
-#include<unistd.h>
-#include<pthread.h>
-#include<stdatomic.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <pthread.h>
+#include <stdatomic.h>
 #include <stdbool.h>
 #include <time.h>
 
@@ -88,13 +88,13 @@ int nanosleep (const struct timespec *req, const struct timespec *rem);
 
 // Shared memory only visible in this file with a life time equal to the main function.
 // typedef avoid to recall the key word struct Data_thread at declaration only Data_thread is call. 
-static typedef struct
+typedef struct
 {
   pthread_mutex_t mut;
   pthread_cond_t wai;
-  atomic_bool flag2;
   bool flag1;
-  char bytes_stram1[50];
+  atomic_bool flag2;
+  char bytes_stream[50];
   struct timespec* timer1;
 } Data_thread;
 
@@ -118,7 +118,11 @@ void * thread_1 (void *arg)
   // order to read the bytes interval pointed by (void*)arg as struct Data_thread when Dereferenced...
   // ( that the way how c pass arguments between threads. )
   Data_thread* access_th1 = (Data_thread *) arg;
-	
+  
+  for(size_t i =0;i<50;i++){
+   *(access_th1->bytes_stream+i) = '\0';
+  }
+
   // Now we can acces to the shared memory (while the following still unsafe: "any other thread can potentially access to that 
   // memory area", even if in the case of this program (as it's writed), not other acces are claimed, so it's ok but unsafe
   // it's where bug grow and it's what Rust runtime avoid by borrow checking at compile time.
@@ -127,7 +131,7 @@ void * thread_1 (void *arg)
   // There a safe atomic instruction protect the data from concurent access via an atomic_bool type
   // it's memory safe no concurent acces can be made.
   access_th1->flag2 = true;
-
+  
   printf ("\x1b[1;1H\33[2JCopy name to shared memory...\n");
   for (size_t i = 0; i < 6; i++)
     {
@@ -136,7 +140,7 @@ void * thread_1 (void *arg)
       // Also a mutual exclution mutex forbid other thread sharing the same mutex to acces to this memory area
       // defined between lock and unlock. 
       pthread_mutex_lock (&access_th1->mut);
-      *(access_th1->bytes_stram1 + i) = *(Name + i);
+      *(access_th1->bytes_stream + i) = *(Name + i);
       pthread_mutex_unlock (&access_th1->mut);
       if (i == 5)
 	{
@@ -150,7 +154,7 @@ void * thread_1 (void *arg)
       nanosleep (access_th1->timer1, access_th1->timer1);
     }
 
-  printf ("Hello from thread 1 ! %s atomic flag->%d\n", access_th1->bytes_stram1,access_th1->flag2);
+  printf ("Hello from thread 1 ! %s atomic flag->%d\n", access_th1->bytes_stream,access_th1->flag2);
   // Start the thread 2.
   pthread_cond_signal (&access_th1->wai);
   return NULL;
