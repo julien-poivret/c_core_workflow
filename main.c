@@ -83,66 +83,77 @@ on every kind of machine, the more efficently possible in regard of energy consu
                                                                                               ```""
 */
 
-int nanosleep(const struct timespec *req,const struct timespec *rem);
+int nanosleep (const struct timespec *req, const struct timespec *rem);
 
-typedef struct{
+typedef struct
+{
   pthread_mutex_t mut;
   pthread_cond_t wai;
   bool flag1;
   char bytes_stram1[50];
-  struct timespec* timer1;
-}Data_thread;
+  struct timespec *timer1;
+} Data_thread;
 
 
-void* thread_1(void* arg){
-  
+void *
+thread_1 (void *arg)
+{
+
   // Thread 1.
-  char Name[20]="Julien";
-  Data_thread* access_th1 = (Data_thread*) arg;
+  char Name[20] = "Julien";
+  Data_thread *access_th1 = (Data_thread *) arg;
   access_th1->flag1 = false;
-  access_th1->timer1->tv_nsec=200000000;
-  access_th1->timer1->tv_sec=0;
+  access_th1->timer1->tv_nsec = 200000000;
+  access_th1->timer1->tv_sec = 0;
 
-  printf("\x1b[1;1H\33[2JCompute name...\n");
-  for (size_t i =0; i<6; i++) {
-          pthread_mutex_lock(&access_th1->mut);
-          *(access_th1->bytes_stram1+i) = *(Name+i); 
-	  pthread_mutex_unlock(&access_th1->mut);
-	  if(i==5){
-	  printf("%c\n", *(Name+i));
-	  }else{
-	  printf("%c,", *(Name+i));
-	  }
-	  fflush(stdout);
-	  nanosleep(access_th1->timer1,access_th1->timer1);
-  }
+  printf ("\x1b[1;1H\33[2JCompute name...\n");
+  for (size_t i = 0; i < 6; i++)
+    {
+      pthread_mutex_lock (&access_th1->mut);
+      *(access_th1->bytes_stram1 + i) = *(Name + i);
+      pthread_mutex_unlock (&access_th1->mut);
+      if (i == 5)
+	{
+	  printf ("%c\n", *(Name + i));
+	}
+      else
+	{
+	  printf ("%c,", *(Name + i));
+	}
+      fflush (stdout);
+      nanosleep (access_th1->timer1, access_th1->timer1);
+    }
 
-  printf("Hello from thread 1 ! %s\n",access_th1->bytes_stram1);
-  pthread_cond_signal(&access_th1->wai);
-  return NULL;  
+  printf ("Hello from thread 1 ! %s\n", access_th1->bytes_stram1);
+  pthread_cond_signal (&access_th1->wai);
+  return NULL;
 }
 
-void* thread_2(void* arg){
-  Data_thread* access_th2 = (Data_thread*) arg;
-  pthread_cond_wait(&access_th2->wai, &access_th2->mut);
+void *
+thread_2 (void *arg)
+{
+  Data_thread *access_th2 = (Data_thread *) arg;
+  pthread_cond_wait (&access_th2->wai, &access_th2->mut);
   // Thread 2.
-  printf("Hello from thread 2 !\n");
-  fflush(stdout);
-  return NULL;  
+  printf ("Hello from thread 2 !\n");
+  fflush (stdout);
+  return NULL;
 }
 
-int main(int argc,char* argv[]){
+int
+main (int argc, char *argv[])
+{
 
-  char help[64] = 
+  char help[64] =
     "Basic Documentation.\n"
-    "        Test        \n"
-    "     19-Nov-21      \n";
+    "        Test        \n" "     19-Nov-21      \n";
 
   // Basic Error Handling.
-  if(!((size_t) write(1,(char*)help,64))){
-    fprintf(stderr,"Error stdout !");
-    return EXIT_FAILURE;
-  };
+  if (!((size_t) write (1, (char *) help, 64)))
+    {
+      fprintf (stderr, "Error stdout !");
+      return EXIT_FAILURE;
+    };
 
   // Set the Data Stream for thread. 
   struct timespec time_ch;
@@ -152,16 +163,16 @@ int main(int argc,char* argv[]){
   data.timer1 = &time_ch;
   pthread_t th1;
   pthread_t th2;
-  pthread_mutex_init(&data.mut,NULL);
-  pthread_cond_init(&data.wai,NULL);
+  pthread_mutex_init (&data.mut, NULL);
+  pthread_cond_init (&data.wai, NULL);
 
   // Launch stream;
-  pthread_create(&th1,NULL,&thread_1,(void*) &data);
-  pthread_create(&th2,NULL,&thread_2,(void*) &data);
+  pthread_create (&th1, NULL, &thread_1, (void *) &data);
+  pthread_create (&th2, NULL, &thread_2, (void *) &data);
 
   // Join them.
-  pthread_join(th1,NULL);
-  pthread_join(th2,NULL);
+  pthread_join (th1, NULL);
+  pthread_join (th2, NULL);
 
   return EXIT_SUCCESS;
 }
