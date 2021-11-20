@@ -126,7 +126,7 @@ void * thread_1 (void *arg)
   }
 
   // Now we can acces to the shared memory (while the following still unsafe: "any other thread can potentially access to that 
-  // memory area", even if in the case of this program (as it's writed), not other acces are claimed, so it's ok but unsafe
+  // memory area", even if in the case of this program (as it's writed), no other acces are claimed, so it's ok but unsafe
   // it's where bug grow and it's what Rust runtime avoid by borrow checking at compile time.
   access_th1->flag1 = false;
  
