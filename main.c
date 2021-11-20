@@ -201,7 +201,7 @@ int main (int argc, char *argv[])
   Data_thread data;
   data.timer1 = &time_ch;
   
-  //two thread are declared.
+  //two threads are declared.
   pthread_t th1;
   pthread_t th2;
   //Mutex and thread Signal comunication are initialized.
