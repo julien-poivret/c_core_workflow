@@ -8,8 +8,8 @@
 #include <time.h>
 
 /*
-     archives of the Core workflow of reference in Pure c for development on "Embedded" linux
-                             (i mean non real time critical task)
+     archives of 'my' Core workflow reference in Pure c for development on "Embedded" linux
+                            ( i mean non real time critical task )
          just about launching iot applications with the perfect runtime/energy cost.
 on every kind of machine, the more efficently possible in regard of energy consumption and speed...
    the major security issue come from the lack of buffer counting and that is up to the programer 
