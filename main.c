@@ -187,8 +187,9 @@ int main (int argc, char *argv[])
     if (!((size_t) write (1, (char *) help, 64)))
     {
       fprintf (stderr, "Error stdout !");
+      return EXIT_FAILURE;
     }
-    return EXIT_FAILURE;
+    return EXIT_SUCCESS;
   }
   
   // linux timer structure for time sheduling across threads.
