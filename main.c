@@ -16,7 +16,7 @@ on every kind of machine, the more efficently possible in regard of energy consu
                     to don't exceed the memory range in read/write memory, 
 	       upond that bare metal at cpu core register is the safest concept !
 	(perfect for beagel board, for efficent compilation time and runtime memory cost.)
-		    what about Rust whell Rust is a Glock and c a 357 magnum !
+		    what about Rust well Rust is a Glock and c a 357 magnum !
           ( Gun is bad ! video game are cool ! and i love 3d arts computing by the way ! )
       
                                             .____.
