@@ -146,13 +146,15 @@ int main (int argc, char *argv[])
     "        Test        \n" 
     "     19-Nov-21      \n";
 
-  // Basic Error Handling.
-  if (!((size_t) write (1, (char *) help, 64)))
+  // arguments handling like in c++.
+  if( argc==2 && argv[1][0]=='-' && argv[1][1]=='h' ){
+    // Basic Error Handling.
+    if (!((size_t) write (1, (char *) help, 64)))
     {
       fprintf (stderr, "Error stdout !");
       return EXIT_FAILURE;
-    };
-
+    }
+  }
   // Set the Data Stream for thread. 
   struct timespec time_ch;
   time_ch.tv_sec = 1;
