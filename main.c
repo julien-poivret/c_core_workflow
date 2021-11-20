@@ -95,8 +95,7 @@ typedef struct
 } Data_thread;
 
 
-void *
-thread_1 (void *arg)
+void * thread_1 (void *arg)
 {
 
   // Thread 1.
@@ -129,8 +128,7 @@ thread_1 (void *arg)
   return NULL;
 }
 
-void *
-thread_2 (void *arg)
+void * thread_2 (void *arg)
 {
   Data_thread *access_th2 = (Data_thread *) arg;
   pthread_cond_wait (&access_th2->wai, &access_th2->mut);
@@ -140,8 +138,7 @@ thread_2 (void *arg)
   return NULL;
 }
 
-int
-main (int argc, char *argv[])
+int main (int argc, char *argv[])
 {
 
   char help[64] =
