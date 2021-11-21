@@ -86,7 +86,7 @@ on every kind of machine, the more efficently possible in regard of energy consu
 // (just tell to the compiller how the lib time.h shape data)
 int nanosleep (const struct timespec *req, const struct timespec *rem);
 
-// Shared memory only visible in this file with a life time equal to the main function.
+// Shared memory with a life time equal to the main function.
 // typedef avoid to recall the key word struct Data_thread at declaration only Data_thread is call. 
 typedef struct
 {
