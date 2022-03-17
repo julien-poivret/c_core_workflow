@@ -91,6 +91,7 @@ int nanosleep (const struct timespec *req, const struct timespec *rem);
 typedef struct
 {
   pthread_mutex_t mut;
+  pthread_mutex_t mut_b;
   pthread_cond_t wai;
   bool flag1;
   atomic_bool flag2;
@@ -165,8 +166,12 @@ void * thread_1 (void *arg)
 void * thread_2 (void *arg)
 {
   Data_thread *access_th2 = (Data_thread *) arg;
-  // whait until thread1 send the signal to start. not much energy are consumed while waiting.
-  pthread_cond_wait (&access_th2->wai, &access_th2->mut);
+  // Whait until thread1 send the signal to start. not much energy will be consumed while waiting.
+  pthread_mutex_lock (&access_th2->mut_b); // Lock this kind of specific following action.
+  pthread_cond_wait (&access_th2->wai, &access_th2->mut_b); // pause the thread2 and wait signal to start
+	                                                    // also unlock the specific mutex "mut_b"
+	                                                    // (garant of the non thread race in 
+	                                                    // the whole frame of running thread )
   //thread 2 runtime... can be any thing...
   printf ("Hello from thread 2 !\n");
   fflush (stdout);
