@@ -211,6 +211,7 @@ int main (int argc, char *argv[])
   pthread_t th2;
   //Mutex and thread Signal comunication are initialized.
   pthread_mutex_init (&data.mut, NULL);
+  pthread_mutex_init (&data.mut_b, NULL);
   pthread_cond_init (&data.wai, NULL);
 
   // Launch the threads;
