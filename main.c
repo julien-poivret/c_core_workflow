@@ -84,7 +84,8 @@ on every kind of machine, the more efficently possible in regard of energy consu
 */
 // linux timing declaration prototype ...
 // (just tell to the compiller how the lib time.h shape data)
-int nanosleep (const struct timespec *req, const struct timespec *rem);
+//  *** uncoment the following line for avoiding implicit warning declaration at compile time. on Linux machine don't needed on mac OSX *** 
+//  int nanosleep (const struct timespec *req, const struct timespec *rem);
 
 // Shared memory with a life time equal to the main function.
 // typedef avoid to recall the key word struct Data_thread at declaration only Data_thread is call. 
